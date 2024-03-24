@@ -89,7 +89,7 @@ const barChartController = async (req, res) => {
 					'401-500': {
 						$sum: {
 							$cond: [
-								{ $and: [{ $gt: ['$price', 400] }, { $lte: ['$price', 300] }] },
+								{ $and: [{ $gt: ['$price', 400] }, { $lte: ['$price', 500] }] },
 								1,
 								0,
 							],
@@ -98,7 +98,7 @@ const barChartController = async (req, res) => {
 					'501-600': {
 						$sum: {
 							$cond: [
-								{ $and: [{ $gt: ['$price', 500] }, { $lte: ['$price', 300] }] },
+								{ $and: [{ $gt: ['$price', 500] }, { $lte: ['$price', 600] }] },
 								1,
 								0,
 							],
@@ -107,7 +107,7 @@ const barChartController = async (req, res) => {
 					'601-700': {
 						$sum: {
 							$cond: [
-								{ $and: [{ $gt: ['$price', 600] }, { $lte: ['$price', 300] }] },
+								{ $and: [{ $gt: ['$price', 600] }, { $lte: ['$price', 700] }] },
 								1,
 								0,
 							],
@@ -116,7 +116,7 @@ const barChartController = async (req, res) => {
 					'701-800': {
 						$sum: {
 							$cond: [
-								{ $and: [{ $gt: ['$price', 700] }, { $lte: ['$price', 300] }] },
+								{ $and: [{ $gt: ['$price', 700] }, { $lte: ['$price', 800] }] },
 								1,
 								0,
 							],
@@ -125,7 +125,7 @@ const barChartController = async (req, res) => {
 					'801-900': {
 						$sum: {
 							$cond: [
-								{ $and: [{ $gt: ['$price', 800] }, { $lte: ['$price', 300] }] },
+								{ $and: [{ $gt: ['$price', 800] }, { $lte: ['$price', 900] }] },
 								1,
 								0,
 							],
