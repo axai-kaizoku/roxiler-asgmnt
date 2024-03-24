@@ -4,20 +4,21 @@ const transactionRoute = require('./routes/transactionRoute');
 const connectDB = require('./database/index');
 const seedData = require('./config/seed-data');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 8080;
 
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
 
 app.use('/api/v1/transaction', transactionRoute);
 
 app.get('/', (req, res) => {
-	res.json({ message: 'Server is up and running!' });
+	return res.json({ message: 'Server is up and running!' });
 });
 
 Promise.all([connectDB(), seedData()])

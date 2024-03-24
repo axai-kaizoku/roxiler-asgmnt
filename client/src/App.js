@@ -3,6 +3,8 @@ import { getMonthName } from './utils';
 import BarChart from './components/BarChart';
 import Statistics from './components/Statistics';
 import PieChart from './components/PieChart';
+import DropDown from './components/Dropdown';
+import { months } from './constants/index';
 
 function App() {
 	const [data, setData] = useState([]);
@@ -63,6 +65,10 @@ function App() {
 		}
 	};
 
+	const handleSelectChange = (value) => {
+		setMonth(value);
+	};
+
 	useEffect(() => {
 		searchResults(month, keyword);
 	}, [month, keyword]);
@@ -88,30 +94,14 @@ function App() {
 							onKeyDown={(e) => {
 								if (e.key === 'Enter') setKeyword(e.target.value);
 							}}
-							className="p-4 text-lg "
+							className="w-2/6 h-12 p-4 pl-12 text-sm bg-white border rounded-full outline-none cursor-pointer max-sm:rounded-full"
 							placeholder="Search transaction"
 						/>
 						<div>
-							<select
-								name="month"
-								id="month"
-								onChange={(e) => {
-									setMonth(e.target.value);
-								}}
-								defaultValue={3}>
-								<option value="1">January</option>
-								<option value="2">February</option>
-								<option value="3">March</option>
-								<option value="4">April</option>
-								<option value="5">May</option>
-								<option value="6">June</option>
-								<option value="7">July</option>
-								<option value="8">August</option>
-								<option value="9">September</option>
-								<option value="10">October</option>
-								<option value="11">November</option>
-								<option value="12">December</option>
-							</select>
+							<DropDown
+								options={months}
+								onSelectChange={handleSelectChange}
+							/>
 						</div>
 					</div>
 					<table className="p-10 my-8 bg-white rounded-md">
@@ -140,7 +130,7 @@ function App() {
 											<img
 												src={row.image}
 												alt="item pic"
-												className="object-contain w-52 h-52"
+												className="object-contain w-32 h-32"
 											/>
 										</td>
 									</tr>
@@ -178,7 +168,9 @@ function App() {
 			{/* Bar Chart Start */}
 			<div className="flex justify-center my-10">
 				<div className="w-4/5">
-					<h2>Bar Chart Stats - {getMonthName(month)}</h2>
+					<h2 className="p-4 text-4xl font-extralight">
+						Bar Chart Stats - {getMonthName(month)}
+					</h2>
 					<div className="w-full">
 						<BarChart month={month} />
 					</div>
@@ -189,13 +181,14 @@ function App() {
 			{/* Pie Chart start */}
 			<div className="flex justify-center my-20">
 				<div className="flex justify-center w-4/5">
-					<h2>Pie Chart Stats - {getMonthName(month)}</h2>
+					<h2 className="p-4 text-4xl font-extralight">
+						Pie Chart Stats - {getMonthName(month)}
+					</h2>
 					<div className="flex justify-center w-2/4 p-10 ">
 						<PieChart month={month} />
 					</div>
 				</div>
 			</div>
-
 			{/* Pie Chart end */}
 		</main>
 	);

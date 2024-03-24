@@ -30,11 +30,17 @@ export default function Statistics({ month }) {
 
 	return (
 		<>
-			<h2>Statistics - {getMonthName(month)}</h2>
+			<h2 className="p-4 text-4xl font-extralight">
+				Statistics - {getMonthName(month)}
+			</h2>
 			<div className="flex flex-col gap-4 p-10 bg-white rounded-xl">
-				<p>Total Sale: {statistics.totalSale.toFixed(2)}</p>
-				<p>Total Sold Items: {statistics.totalSold}</p>
-				<p>Total Unsold Items: {statistics.totalUnsold}</p>
+				<p className="p-4 text-2xl">
+					Total Sale: {statistics.totalSale.toFixed(2)}
+				</p>
+				<p className="p-4 text-2xl">Total Sold Items: {statistics.totalSold}</p>
+				<p className="p-4 text-2xl">
+					Total Unsold Items: {statistics.totalUnsold}
+				</p>
 			</div>
 		</>
 	);
