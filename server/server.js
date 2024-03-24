@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const transactionRoute = require('./routes/transactionRoute');
 const connectDB = require('./database/index');
 const seedData = require('./config/seed-data');
+const cors = require('cors');
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const PORT = process.env.SERVER_PORT || 8080;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/v1/transaction', transactionRoute);
 

@@ -12,16 +12,16 @@ const getAllTransactions = async (req, res) => {
 
 const searchTransactions = async (req, res) => {
 	try {
-		const { month, search } = req.body;
+		const { month, keyword } = req.params;
 		// Construct the query object
 		const query = {
 			$expr: { $eq: [{ $month: '$dateOfSale' }, parseInt(month)] },
 		};
-		if (search) {
+		if (keyword) {
 			query.$or = [
-				{ title: { $regex: search, $options: 'i' } },
-				{ description: { $regex: search, $options: 'i' } },
-				{ price: parseInt(search) || null },
+				{ title: { $regex: keyword, $options: 'i' } },
+				{ description: { $regex: keyword, $options: 'i' } },
+				{ price: parseInt(keyword) || null },
 			];
 		}
 		// Fetch transactions based on the query

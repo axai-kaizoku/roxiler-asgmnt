@@ -11,7 +11,7 @@ const {
 const router = express.Router();
 
 router.get('/get-all', getAllTransactions);
-router.get('/search', searchTransactions);
+router.get('/search/:month/:keyword?', searchTransactions);
 router.get('/page/:page', paginatedTransactions);
 router.get('/statistics/:month', statisticsController);
 router.get('/bar-chart/:month', barChartController);
