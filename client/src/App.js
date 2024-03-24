@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getMonthName } from './utils';
 
 function App() {
 	// const data = [
@@ -140,6 +141,11 @@ function App() {
 	const [page, setPage] = useState(1);
 	const [month, setMonth] = useState(3);
 	const [keyword, setKeyword] = useState('');
+	const [statistics, setStatistics] = useState({
+		totalSale: 10000,
+		totalSold: 20,
+		totalUnsold: 8,
+	});
 
 	const fetchTransactions = async (pageNo) => {
 		try {
@@ -194,12 +200,27 @@ function App() {
 		}
 	};
 
-	const handleChange = () => {
-		searchResults(month, keyword);
+	const getStatistics = async (statsMonth) => {
+		try {
+			const response = await fetch(
+				`http://localhost:3030/api/v1/transaction/statistics/${statsMonth}`,
+			);
+			const data = await response.json();
+			setStatistics({
+				totalSale: data.totalSaleAmount,
+				totalSold: data.totalSoldItems,
+				totalUnsold: data.totalUnsoldItems,
+			});
+			console.log(data);
+			console.log(statistics);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
-		handleChange();
+		searchResults(month, keyword);
+		getStatistics(month);
 	}, [month, keyword]);
 
 	useEffect(() => {
@@ -219,8 +240,6 @@ function App() {
 							type="text"
 							onChange={(e) => {
 								setKeyword(e.target.value);
-
-								// searchResults(undefined, e.target.value);
 							}}
 							onKeyDown={(e) => {
 								if (e.key === 'Enter') setKeyword(e.target.value);
@@ -307,11 +326,11 @@ function App() {
 			{/* Statistics start */}
 			<div className="flex justify-center">
 				<div className="flex flex-col w-3/4">
-					<h2>Statistics - March</h2>
+					<h2>Statistics - {getMonthName(month)}</h2>
 					<div className="flex flex-col gap-4 p-10 bg-white rounded-xl">
-						<p>Total Sale: 10000</p>
-						<p>Total Sold Items: 55</p>
-						<p>Total Unsold Items: 5</p>
+						<p>Total Sale: {statistics.totalSale}</p>
+						<p>Total Sold Items: {statistics.totalSold}</p>
+						<p>Total Unsold Items: {statistics.totalUnsold}</p>
 					</div>
 				</div>
 			</div>
