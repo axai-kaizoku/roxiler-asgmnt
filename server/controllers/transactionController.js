@@ -13,7 +13,6 @@ const getAllTransactions = async (req, res) => {
 const searchTransactions = async (req, res) => {
 	try {
 		const { month, keyword } = req.params;
-		// Construct the query object
 		const query = {
 			$expr: { $eq: [{ $month: '$dateOfSale' }, parseInt(month)] },
 		};
@@ -24,7 +23,6 @@ const searchTransactions = async (req, res) => {
 				{ price: parseInt(keyword) || null },
 			];
 		}
-		// Fetch transactions based on the query
 		const transactions = await transactionModel.find(query);
 		res.status(200).json(transactions);
 	} catch (error) {
@@ -51,8 +49,6 @@ const paginatedTransactions = async (req, res) => {
 const barChartController = async (req, res) => {
 	try {
 		const { month } = req.params;
-
-		// Aggregate pipeline to group transactions by price range
 		const pipeline = [
 			{
 				$match: {
@@ -135,20 +131,7 @@ const barChartController = async (req, res) => {
 							],
 						},
 					},
-					'901-above': {
-						$sum: {
-							$cond: [
-								{
-									$and: [
-										{ $gt: ['$price', 900] },
-										{ $lte: ['$price', 1000000] },
-									],
-								},
-								1,
-								0,
-							],
-						},
-					},
+					'901-above': { $sum: { $cond: [{ $gt: ['$price', 900] }, 1, 0] } },
 				},
 			},
 		];
