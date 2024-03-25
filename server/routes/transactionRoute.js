@@ -6,11 +6,13 @@ const {
 	barChartController,
 	pieChartController,
 	statisticsController,
+	getSingleTransaction,
 } = require('../controllers/transactionController');
 
 const router = express.Router();
 
 router.get('/get-all', getAllTransactions);
+router.get('/get-one/:id', getSingleTransaction);
 router.get('/search/:month/:keyword?', searchTransactions);
 router.get('/page/:page', paginatedTransactions);
 router.get('/statistics/:month', statisticsController);

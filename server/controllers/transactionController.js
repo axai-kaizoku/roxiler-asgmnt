@@ -5,7 +5,17 @@ const getAllTransactions = async (req, res) => {
 		const data = await transactionModel.find();
 		res.status(200).send(data);
 	} catch (error) {
-		console.log('Error seeding data:', error);
+		console.log('Error fetching data:', error);
+		res.status(500).send(error);
+	}
+};
+
+const getSingleTransaction = async (req, res) => {
+	try {
+		const data = await transactionModel.find({ id: req.params.id });
+		res.status(200).send(data[0]);
+	} catch (error) {
+		console.log('Error fetching data:', error);
 		res.status(500).send(error);
 	}
 };
@@ -228,4 +238,5 @@ module.exports = {
 	barChartController,
 	pieChartController,
 	statisticsController,
+	getSingleTransaction,
 };

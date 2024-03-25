@@ -6,6 +6,7 @@ import PieChart from './components/PieChart';
 import DropDown from './components/Dropdown';
 import { months } from './constants/index';
 import Loading from './components/Loading';
+import Modal from './components/Modal';
 
 function App() {
 	const [data, setData] = useState([]);
@@ -13,6 +14,8 @@ function App() {
 	const [month, setMonth] = useState(3);
 	const [keyword, setKeyword] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const [transId, setTransId] = useState(1);
 
 	const fetchTransactions = async (pageNo) => {
 		try {
@@ -127,15 +130,25 @@ function App() {
 									<tr key={row.id}>
 										<td>{row.id}</td>
 										<td>{row.title}</td>
-										<td>{row.description}</td>
+										{/* {post.content.slice(0, post.content.lastIndexOf(' ', 100)) + ' ...'} */}
+										<td>
+											{row.description.slice(
+												0,
+												row.description.lastIndexOf(' ', 130),
+											) + ' ...'}
+										</td>
 										<td>{row.price.toFixed(2)}</td>
-										<td>{row.category}</td>
+										<td className="capitalize">{row.category}</td>
 										<td>{row.sold ? 'true' : 'false'}</td>
 										<td>
 											<img
 												src={row.image}
 												alt="item pic"
 												className="object-contain w-32 h-32"
+												onClick={() => {
+													setTransId(row.id);
+													setIsOpen(true);
+												}}
 											/>
 										</td>
 									</tr>
@@ -149,14 +162,36 @@ function App() {
 							)}
 						</tbody>
 					</table>
-					<div className="flex justify-between w-full px-4">
-						<div>Page No: {page}</div>
-
+					<Modal
+						isOpen={isOpen}
+						closeModal={() => setIsOpen(false)}
+						id={transId}
+					/>
+					<div className="flex justify-end w-full gap-12 px-4">
+						<p className="p-3 font-semibold text-lg">
+							Rows per page: {data.length}
+						</p>
+						<p className="p-3 font-semibold text-lg">Page {page} of 6</p>
 						<div>
-							<button onClick={prevPage}>Previous</button> -
-							<button onClick={nextPage}>Next</button>
+							<button
+								onClick={prevPage}
+								className="p-3 mx-1 rounded-xl border">
+								<img
+									src="/chevron-left.svg"
+									alt="left"
+									className="w-5 h-5 object-contain"
+								/>
+							</button>{' '}
+							<button
+								onClick={nextPage}
+								className="p-3 mx-1 rounded-xl border">
+								<img
+									src="/chevron-right.svg"
+									alt="right"
+									className="w-5 h-5 object-contain"
+								/>
+							</button>
 						</div>
-						<div>Count: {data.length}</div>
 					</div>
 				</div>
 			</div>
